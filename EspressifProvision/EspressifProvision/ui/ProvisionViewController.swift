@@ -128,22 +128,22 @@ class ProvisionViewController: UIViewController {
                 security = Security1(proofOfPossession: provisionConfig[Provision.CONFIG_PROOF_OF_POSSESSION_KEY]!)
                 initSession()
             } else {
-                let input = UIAlertController(title: "Proof of Possession", message: nil, preferredStyle: .alert)
-
-                input.addTextField { textField in
-                    textField.text = "abcd1234"
-                }
-                input.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { _ in
-                    self.transport?.disconnect()
-                    self.navigationController?.popViewController(animated: true)
-                }))
-                input.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak input] _ in
-                    let textField = input?.textFields![0]
-                    self.provisionConfig[Provision.CONFIG_PROOF_OF_POSSESSION_KEY] = textField?.text ?? ""
-                    self.security = Security1(proofOfPossession: self.provisionConfig[Provision.CONFIG_PROOF_OF_POSSESSION_KEY]!)
-                    self.initSession()
-                }))
                 DispatchQueue.main.async {
+                    let input = UIAlertController(title: "Proof of Possession", message: nil, preferredStyle: .alert)
+
+                    input.addTextField { textField in
+                        textField.text = "abcd1234"
+                    }
+                    input.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { _ in
+                        self.transport?.disconnect()
+                        self.navigationController?.popViewController(animated: true)
+                    }))
+                    input.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak input] _ in
+                        let textField = input?.textFields![0]
+                        self.provisionConfig[Provision.CONFIG_PROOF_OF_POSSESSION_KEY] = textField?.text ?? ""
+                        self.security = Security1(proofOfPossession: self.provisionConfig[Provision.CONFIG_PROOF_OF_POSSESSION_KEY]!)
+                        self.initSession()
+                    }))
                     self.present(input, animated: true, completion: nil)
                 }
             }
